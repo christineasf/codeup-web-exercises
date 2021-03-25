@@ -67,12 +67,16 @@ switch (randomColor) {
         break;
     case "green":
         console.log("green grass");
+        break;
     case "blue":
         console.log("blue skies");
+        break;
     case "indigo":
         console.log("indigo what even is this?");
+        break;
     case "violet":
         console.log("very violet");
+        break;
     default:
         console.log("rainbow.");
         break;
@@ -85,7 +89,7 @@ switch (randomColor) {
  * function to show it to the user.
  */
 
-var allTheColors = prompt("What color do you like?");
+var allTheColors = prompt("What color do you like?").toLowerCase();
 
 switch (allTheColors) {
 
