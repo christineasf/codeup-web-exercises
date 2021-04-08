@@ -1,0 +1,73 @@
+/*#container {*/
+/*    margin: auto;*/
+/*    width: 500px;*/
+/*    padding: 10px;*/
+/*}*/
+body {
+    background-color: lightblue;
+    background-image: url(../img/23344937.png);
+    background-repeat: no-repeat;
+    background-position: bottom;
+}
+
+
+h1, h2, h3 {
+    color: navy;
+    text-decoration: underline;
+    font-family: "Bebas Neue"
+}
+
+h1 {
+    text-align: center;
+}
+p {
+    font-family: "Bebas Neue";
+}
+
+img {
+    text-align: center;
+}
+ul, ol {
+    font-family: "Bebas Neue"
+}
+ul {
+    list-style: georgian;
+}
+
+ol {
+    list-style: square;
+}
+
+table {
+    font-family: "Bebas Neue";
+}
+
+tbody {
+    font-family: "Bebas Neue";
+    padding-right: 12px;
+    padding-left: 20px;
+
+}
+td, tr {
+    font-size: 16px;
+    padding-top: 25px;
+    padding-right: 10px;
+    padding-bottom: 30px;
+    padding-left: 20px;
+}
+
+a:link {
+    color: deepskyblue;
+}
+
+a:visited {
+    color: skyblue;
+}
+
+a:hover {
+    color: navy;
+}
+
+a:active {
+    color: yellow;
+}
