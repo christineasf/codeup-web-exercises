@@ -1,0 +1,28 @@
+body, html {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: Arial, Ubuntu, sans-serif;
+}
+
+.message-info{
+    color: rgb(59, 53, 146);
+    /*color: rgb(209, 222, 252);*/
+}
+
+.message-success {
+    color: rgb(85, 134, 94);
+    /*color: rgb(215, 242, 220);*/
+
+}
+
+.message-warning{
+    color: rgb(167, 155, 85);
+    /*color: rgb(253, 251, 206);*/
+}
+
+.message-error {
+    color: rgb(141, 66, 80);
+    /*color: rgb(245, 212, 215);*/
+}
