@@ -76,6 +76,7 @@ fieldset {
     /* HINT: Examples are available at: https://glitch.com/~input-button-width */
     /*width: 100%;*/
     width: calc(100% - 4px);
+    /*padding: 4px 0;*/
     padding-top: 4px;
     padding-bottom: 4px;
     margin-top: .5em;

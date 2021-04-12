@@ -16,6 +16,8 @@ div {
 .message{
     border: 1px solid rgb(216, 217, 221);
     border-radius: 5px;
+    margin: .5em;
+    padding: .5em;
 }
 .message-info{
     background-color: rgb(209, 222, 252);
