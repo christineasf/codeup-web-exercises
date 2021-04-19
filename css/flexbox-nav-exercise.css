@@ -1,28 +1,146 @@
 
-/* Add a black background color to the top navigation */
-.topnav {
-    background-color: lightgray;
-    overflow: hidden;
-}
+/*body ul a{*/
+/*    list-style: none;*/
+/*}*/
+/*.topnav {*/
+/*    background-color: lightgray;*/
+/*    overflow: hidden;*/
+/*}*/
 
-/* Style the links inside the navigation bar */
-.topnav a {
-    float: left;
-    color: black;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-size: 17px;
-}
+/*!* Style the links inside the navigation bar *!*/
+/*.topnav a {*/
+/*    font-family: "Montserrat", "Work Sans" ;*/
+/*    float: left;*/
+/*    color: black;*/
+/*    text-align: center;*/
+/*    padding: 14px 16px;*/
+/*    text-decoration: none;*/
+/*    font-size: 17px;*/
+/*}*/
 
-/* Change the color of links on hover */
-.topnav a:hover {
-    background-color: cornflowerblue;
-    color: black;
-}
-
-/* Add a color to the active/current link */
-/*.topnav a.active {*/
+/*!* Change the color of links on hover *!*/
+/*.topnav a:hover {*/
+/*    color: cornflowerblue;*/
+/*    font-size: xx-large;*/
+/*}*/
+/*ul {*/
+/*    list-style: none;*/
+/*    margin: fill;*/
+/*}*/
+/*.article{*/
+/*    text-align: center;*/
+/*}*/
+/*.product{*/
+/*    text-align: center;*/
+/*}*/
+/*.market{*/
+/*    text-align: center;*/
+/*}*/
+/*.jobs{*/
+/*    text-align: center;*/
+/*}*/
+/*!*.logo{*!*/
+/*!*    position: absolute;*!*/
+/*!*    padding: .2em;*!*/
+/*!*    font-size: 3em;*!*/
+/*!*}*!*/
+/*.FollowUs{*/
+/*    margin-right: auto;*/
+/*}*/
+/*a[href=followus] {*/
+/*    display: flex;*/
+/*    justify-content: end;*/
+/*}*/
+/*.logo {*/
+/*    padding: 1em;*/
+/*}*/
+/*.script {*/
+/*    text-align: center;*/
+/*}*/
+/*a{*/
+/*    display: inline-block;*/
+/*}*/
+ /*Add a color to the active/current link*/
+/*.topnav a. {*/
 /*    background-color: #4CAF50;*/
 /*    color: white;*/
 /*}*/
+
+* {
+    box-sizing: border-box;
+}
+body {
+    margin: 0;
+}
+nav {
+    background: lightgray;
+}
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* made unordered list a flex container */
+}
+nav a {
+    text-decoration: none;
+    color: black;
+    font-family: "Montserrat", "Work Sans" ;
+    display: inline-block;
+    padding: 1em;
+}
+nav a:hover {
+    color: cornflowerblue;
+    /*font-size: xx-large;*/
+    font-family: "Work Sans";
+}
+
+a{
+    display: inline-block;
+    text-decoration: none;
+    /*color: inherit;*/
+}
+/*a, a:hover, a:focus, a:active {*/
+/*    text-decoration: none;*/
+/*    color: inherit;*/
+/*}*/
+.logo-div{
+    /*align-content: center;*/
+    /*position: absolute;*/
+    /*border-style: none;*/
+
+    /*font-size: 3em;*/
+}
+h1 {
+    text-decoration: none;
+    position: absolute;
+    padding-top: .2em;
+    padding-bottom: .2em;
+    /*text-align: center;*/
+    font-size: 3em;
+}
+/*#h1 {*/
+/*    all: initial;*/
+/*}*/
+/*{*/
+/*    all: unset;*/
+/*}*/
+
+/*.fa-search{*/
+/*    text-align: inherit;*/
+
+/*}*/
+/*.fa-shopping-cart{*/
+/*    text-align: inherit;*/
+
+/*}*/
+/*.fa-user-astronaut{*/
+/*    text-align: inherit;*/
+
+/*}*/
+
+nav ul li:nth-child(6) {
+
+    margin-left: auto;
+}
+
+
