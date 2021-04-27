@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    // === comaprison operatior
+    // = assignment operatior > put something in jar
+
+    function tipCalculator(total, theService){
+        var tipPercentage;
+        if (theService === "great"){
+            tipPercentage = 25;
+        } else if (theService === "good") {
+            tipPercentage = 20;
+        } else if (theService === "eh"){
+            tipPercentage = 15;
+        }
+        var tip = total * (tipPercentage/100);
+        return tip;
+    }
+
+    function tipcal(total, percentage){
+        tipamt = total * (percentage /100);
+        return tipamt;
+    }
+
+    function multiply(num1, num2) {
+        result = num1 * num2;
+        return result;
+    }
+
+    var sum;
+    function addStuff(number1, number2) {
+       sum = number1 + number2;
+       return sum;
+    }
+
+    function doThings(name, breakfast){
+        console.log("hello " + name);
+        console.log("make " + breakfast);
+        console.log("drive the kids to school");
+        console.log("start lunch");
+    }
+
+    function goToHEB(food1, food2, food3){
+        console.log("I am going to buy " + food1 + " " + food2 + " " + food3 + " ");
+    }
+
+
+</script>
+</body>
+</html>
