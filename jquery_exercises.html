@@ -3,17 +3,40 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>jQuery</title>
     <script src="js/jquery-3.6.0.js"></script>
 </head>
 <body>
 
+
+<h1>Texas</h1>
+<div id="wrapItUp">
+<p id="listIntro">This will be a Texas Page</p>
+<ul>
+    <li class="epicTexas">Everything is BIGGER in Texas</li>
+    <li class="epicTexas">Sweet Tea</li>
+    <li class="epicTexas">Y'ALL</li>
+    <li class="epicTexas">Cowboys</li>
+    <li class="epicTexas">Bluebonnets</li>
+</ul>
+</div>
+
 <script>
-    window.onload = function(){
-        alert( 'The page finished loading');
-    }
+    $(document).ready(function(){
+        // // alert( 'The page finished loading');
+        // //to get text only
+        // var theDiv = $("#wrapItUp").text();
+        // //to get everything between the tags
+        // // var theDiv =$("#wrapItUp").html();
+        // alert(theDiv);
+        // var listIntro = $("#listIntro").html();
+        // alert(listIntro);
+        $(".epicTexas").css("border", "solid red 1px");
+    })
 
+    //this is basic JavaScript
+    // window.onload = function(){
+    // }
 </script>
-
 </body>
 </html>
