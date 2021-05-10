@@ -2,11 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>ajax blog</title>
+
 </head>
 <body>
 
 <div id ="posts"></div>
+
+
+<script>
+$.ajax("data/blog.json").done(function (inventory){
+console.log(inventory);
+});
+</script>
+
 
 </body>
 </html>
