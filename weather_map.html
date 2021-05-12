@@ -3,67 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <title>OpenWeather API Playground</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
+    <style>
 
+
+</style>
 </head>
 <body>
-<h1>WHAT'S THE WEATHER?</h1>
+<!--<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;"></canvas>-->
+<h1 class="d-flex colcontainer-fluid">WHAT'S THE WEATHER?</h1>
+<label for="input">Search Location</label>
+<input type="text" id="input">
+<button id="btn" type="button">Find</button>
 
-<div id='map' style='width: 300px; height: 300px;'></div>
-<div id="displaydayone"></div>
-<div id="displaydaytwo"></div>
-<div id="displaydaythree"></div>
-<div id="displayfour"></div>
-<div id="displayfive"></div>
-<div id="displaydaysix"></div>
-<div id="displaydayseven"></div>
+<div class="d-flex col container-fluid" >
+    <div class="card m-1" id="ddone" style="text-align: center; font-family: 'Montserrat', 'Work Sans';"></div>
+    <div class="card m-1" id="ddtwo"></div>
+    <div class="card m-1" id="ddthree"></div>
+    <div class="card m-1" id="ddfour"></div>
+    <div class="card m-1" id="ddfive"></div>
+    <div class="card m-1" id="ddsix"></div>
+    <div class="card m-1" id="ddseven"></div>
+</div>
+<!--map-->
+<div class="align-items-center" id='map' style='width: 100%; height: 25vw;'></div>
 
 <script src="js/jquery-3.6.0.js"></script>
 <script src="js/keys.js"></script>
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
 <script>
+// map
+//     mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
+//     var map = new mapboxgl.Map({
+//         container: 'map',
+//     });
+//     map.setStyle('mapbox://styles/mapbox/satellite-streets-v11')
+//     map.setZoom(10)
+//     map.setCenter([-98.4936, 29.4241])
+
+mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
+var map = new mapboxgl.Map({
+    container: 'map', // container ID
+    style: 'mapbox://styles/mapbox/streets-v11', // style URL
+    center: [-98.4936, 29.4241], // starting position [lng, lat]
+    zoom: 11 // starting zoom
+});
+var marker = new mapboxgl.Marker({
+    color: 'yellow',
+    draggable: true
+})
+    .setLngLat([-98.4936, 29.4241])
+    .addTo(map);
+
+var popup = new mapboxgl.Popup()
+    .setLngLat(marker.getLngLat())
+    .setHTML('<h4 class="font">San Antonio, Tx</h4>')
+    .addTo(map);
+var coordinates = {
+    lat: 29.4241,
+    lon: -98.4936,
+}
+
+marker.setPopup(popup)
+    marker.on('dragend', function() {
+        var {lat, lng} = marker.getLngLat();
+        console.log({lat, lng})
+        coordinates = {lat, lon: lng}
+    })
+
+function weatherWrap(){
+    $.get('https://api.openweathermap.org/data/2.5/onecall', {
+        APPID: WEATHER_ACCESS_TOKEN,
+        lat: 29.4241,
+        lon: -98.4936,
+        units: "imperial"
+    }).done(function (resp) {
+        console.log('5 day forcast', resp);
+        var today = resp.daily[0];
+        var todayDate = new Date(today.dt * 1000).toDateString();
 
 
-
-    mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
-    var map = new mapboxgl.Map({
-        container: 'map',
-    });
-    map.setStyle('mapbox://styles/mapbox/satellite-streets-v11')
-    map.setZoom(10)
-    map.setCenter([-98.4936, 29.4241])
-
-
-
-
-    var coordinates = [29.4241, -98.4936];
-    $.get("https://api.openweathermap.org/data/2.5/onecall?units=imperial&lat=" + coordinates[0] + "&lon=" + coordinates[1] + "&appid=" + WEATHER_ACCESS_TOKEN)
-        .done(function (resp) {
-            console.log(resp);
-            var today = resp.daily[0];
-            var todayDate = new Date(today.dt * 1000);
 
 
         function humidityLevel(index) {
-            var humidity = 'Humidity: ' + resp.daily[index].humidity + '%';
-            return humidity;
+            return 'Humidity: ' + resp.daily[index].humidity + '%';
         }
-            $('#displaydayone').html(todayDate);
-            $('#displaydayone').html(humidityLevel(1));
-            $('displaydaythree')
+        function highTemp(index) {
+            var tempHigh = 'High Temp Today: ' + resp.daily[index].temp.max;
+            return tempHigh;
+        }
+        function lowTemp(index) {
+            var tempLow = 'Low Temp Today: ' + resp.daily[index].temp.min;
+            return tempLow;
+        }
+        //sunrise human time
+        function sunriseTime(index) {
+            var sunrise = new Date(resp.daily[index].sunrise * 1000);
+            var hour = sunrise.getHours();
+            var minutes = sunrise.getMinutes();
+            var time = '';
+            if (hour === 0) {
+                time = '12:' + minutes + ' AM'
+            } else if (hour === 12) {
+                time = '12:' + minutes + ' PM'
+            } else if (hour > 12) {
+                time = (hour - 12) + ':' + minutes + ' PM'
+            } else {
+                time = hour + ':' + minutes + ' AM'
+            }
+            return time;
+        }
 
+        $('#ddone').html(todayDate + " " + humidityLevel(0) + " " + sunriseTime(0) + " " + highTemp(0) + " " + lowTemp(0));
 
+        $('#ddtwo').html(todayDate + " " + humidityLevel(1) + " " + sunriseTime(1) + " " + highTemp(1) + " " + lowTemp(1));
 
+        $('#ddthree').html(todayDate + " " + humidityLevel(2) + " " + sunriseTime(2) + " " + highTemp(2) + " " + lowTemp(2));
 
-            console.log(todayDate.getMonth());
-            resp.daily.forEach(function(forecast){
-                console.log(new Date(forecast.dt * 1000));
-                console.log(forecast.temp.min);
-                console.log(forecast.temp.max)
-            })
-        });
+        $('#ddfour').html(todayDate + " " + humidityLevel(3) + " " + sunriseTime(3) + " " + highTemp(3) + " " + lowTemp(3));
+
+        $('#ddfive').html(todayDate + " " + humidityLevel(4) + " " + sunriseTime(4) + " " + highTemp(4) + " " + lowTemp(4));
+
+        resp.daily.forEach(function(forecast){
+            console.log(new Date(forecast.dt * 1000));
+            console.log(forecast.temp.min);
+            console.log(forecast.temp.max)
+        })
+
+    });
+}
+weatherWrap()
 
 
 </script>
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>-->
 </body>
 </html>
