@@ -7,26 +7,58 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
     <script src="js/mapbox-geocoder-utils.js"></script>
 
-    <style>
-
-</style>
+<!-- page style -->
+<style>
+    /*body {*/
+    /*    align-content: center;*/
+    /*}*/
+    /*.cards{*/
+    /*    text-align: center;*/
+    /*    width: 100%;*/
+    /*    margin: auto;*/
+    /*}*/
+    #ddone{
+    background: #eeee92;
+    }
+    #ddtwo{
+    background: #eeee92;
+    }
+    #ddthree{
+    background: #eeee92;
+    }
+    #ddfour{
+    background: #eeee92;
+    }
+    #ddfive {
+    background: #eeee92;
+    }
+    h1{
+    text-align: center;
+    width: 100%;
+    margin: auto;
+    }
+    h4{
+    font-family: "Montserrat", "Work Sans", "serif";
+    font-size: 10px;
+    }
+    </style>
 </head>
+
 <body>
-<!--<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;"></canvas>-->
-<h1 class="d-flex col container-fluid">WHAT'S THE WEATHER?</h1>
+
+<h1>Five Day Forecast</h1>
 <label for="input">Search Location</label>
 <input type="text" id="input">
 <button id="btn" type="button">Find</button>
 
-<div class="d-flex col container-fluid" >
-    <div class="card m-1" id="ddone" style="text-align: center; font-family: 'Montserrat', 'Work Sans';"></div>
-    <div class="card m-1" id="ddtwo"></div>
-    <div class="card m-1" id="ddthree"></div>
-    <div class="card m-1" id="ddfour"></div>
-    <div class="card m-1" id="ddfive"></div>
-    <div class="card m-1" id="ddsix"></div>
-    <div class="card m-1" id="ddseven"></div>
+<div class="cards d-flex col container-fluid" >
+    <div class="card m-1" id="ddone" style="text-align: center; font-family: 'Montserrat', 'Work Sans',serif;"></div>
+    <div class="card m-1" id="ddtwo" style="text-align: center; font-family: 'Montserrat', 'Work Sans', serif;"></div>
+    <div class="card m-1" id="ddthree" style="text-align: center; font-family: 'Montserrat', 'Work Sans', serif;"></div>
+    <div class="card m-1" id="ddfour" style="text-align: center; font-family: 'Montserrat', 'Work Sans', serif;"></div>
+    <div class="card m-1" id="ddfive" style="text-align: center; font-family: 'Montserrat', 'Work Sans', serif;"></div>
 </div>
+
 <!--map-->
 <div class="align-items-center" id='map' style='width: 100%; height: 25vw;'></div>
 
@@ -35,7 +67,6 @@
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
 <script>
 
-
 mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
 var map = new mapboxgl.Map({
     container: 'map', // container ID
@@ -43,6 +74,8 @@ var map = new mapboxgl.Map({
     center: [-98.4936, 29.4241], // starting position [lng, lat]
     zoom: 11 // starting zoom
 });
+
+
 var marker = new mapboxgl.Marker({
     color: 'yellow',
     draggable: true
@@ -58,74 +91,94 @@ var coordinates = {
     lat: 29.4241,
     lon: -98.4936,
 }
+// location lat lng
+    marker.setPopup(popup)
 
-marker.setPopup(popup)
+
+// draggable
     marker.on('dragend', function() {
         var {lat, lng} = marker.getLngLat();
         console.log({lat, lng})
         coordinates = {lat, lon: lng}
+        weatherWrap({lat, lng})
+        popup.setHTML(' ' + lat + ' ' + lng)
     })
+
+// button functionality gives my button necessary info
 function searchResults(){
-    var search = $("#input").val();
-    geocode(userInput, MAPBOX_ACCESS_TOKEN).then(function([lng, lat]) {
-        coordinates = {lat, lon: lng}
-        weatherWrap()
+    var userInput = $("#input").val();
+    geocode(userInput, MAPBOX_ACCESS_TOKEN).then(function(info) {
+        var lng = info[0]
+        var lat = info[1]
+        var newCenter = {lng, lat}
+        weatherWrap(newCenter)
         marker.setLngLat({lng, lat});
-        popup.setHTML('<h3 class="font">' + userInput +  '</h3>');
+        popup.setHTML('<h6 class="font">' + userInput +  '</h6>');
         map.flyTo({center: {lng, lat}});
     })
 }
+// jQuery button click event listener
+$("#btn").click(searchResults)
 
-function weatherWrap(){
+// WW grabs info (lng, lat) from WM API
+function weatherWrap({lat, lng}){
     $.get('https://api.openweathermap.org/data/2.5/onecall', {
         APPID: WEATHER_ACCESS_TOKEN,
-        lat: 29.4241,
-        lon: -98.4936,
+        lat,
+        lon: lng,
         units: "imperial"
     }).done(function (resp) {
         console.log('5 day forcast', resp);
-        var today = resp.daily[0];
-        var todayDate = new Date(today.dt * 1000).toDateString();
+        var todayOne = resp.daily[0];
+        var todayTwo = resp.daily[1];
+        var todayThree = resp.daily[2];
+        var todayFour = resp.daily[3];
+        var todayFive = resp.daily[4];
+
+        var todayDateOne = new Date(todayOne.dt * 1000).toDateString();
+        var todayDateTwo = new Date(todayTwo.dt * 1000).toDateString();
+        var todayDateThree = new Date(todayThree.dt * 1000).toDateString();
+        var todayDateFour = new Date(todayFour.dt * 1000).toDateString();
+        var todayDateFive = new Date(todayFive.dt * 1000).toDateString();
 
 
-        function humidityLevel(index) {
-            return 'Humidity: ' + resp.daily[index].humidity + '%';
-        }
-        function highTemp(index) {
-            var tempHigh = 'High Temp Today: ' + resp.daily[index].temp.max;
-            return tempHigh;
-        }
-        function lowTemp(index) {
-            var tempLow = 'Low Temp Today: ' + resp.daily[index].temp.min;
-            return tempLow;
-        }
-        //sunrise human time
-        function sunriseTime(index) {
-            var sunrise = new Date(resp.daily[index].sunrise * 1000);
-            var hour = sunrise.getHours();
-            var minutes = sunrise.getMinutes();
-            var time = '';
-            if (hour === 0) {
-                time = '12:' + minutes + ' AM'
-            } else if (hour === 12) {
-                time = '12:' + minutes + ' PM'
-            } else if (hour > 12) {
-                time = (hour - 12) + ':' + minutes + ' PM'
-            } else {
-                time = hour + ':' + minutes + ' AM'
-            }
-            return time;
-        }
+function humidityLevel(index) {
+    return 'Humidity: ' + resp.daily[index].humidity + '%';
+}
+function highTemp(index) {
+    return 'High Temp Today: ' + resp.daily[index].temp.max;
+}
+function lowTemp(index) {
+    return 'Low Temp Today: ' + resp.daily[index].temp.min;
+}
 
-        $('#ddone').html(todayDate + " " + humidityLevel(0) + " " + sunriseTime(0) + " " + highTemp(0) + " " + lowTemp(0));
+//sunrise human time
+function sunriseTime(index) {
+    var sunrise = new Date(resp.daily[index].sunrise * 1000);
+    var hour = sunrise.getHours();
+    var minutes = sunrise.getMinutes();
+    var time = '';
+    if (hour === 0) {
+        time = '12:' + minutes + ' AM'
+    } else if (hour === 12) {
+        time = '12:' + minutes + ' PM'
+    } else if (hour > 12) {
+        time = (hour - 12) + ':' + minutes + ' PM'
+    } else {
+        time = hour + ':' + minutes + ' AM'
+    }
+    return 'Sunrise ' + time;
+}
 
-        $('#ddtwo').html(todayDate + " " + humidityLevel(1) + " " + sunriseTime(1) + " " + highTemp(1) + " " + lowTemp(1));
+        $('#ddone').html(todayDateOne + '<br>'  + " " + humidityLevel(0) + '<br>' + " " + sunriseTime(0) + '<br>' + " " + highTemp(0) + '<br>' + " " + lowTemp(0));
 
-        $('#ddthree').html(todayDate + " " + humidityLevel(2) + " " + sunriseTime(2) + " " + highTemp(2) + " " + lowTemp(2));
+        $('#ddtwo').html(todayDateTwo + '<br>' + " " + humidityLevel(1) + '<br>' + " " + sunriseTime(1) + '<br>' + " " + highTemp(1) + '<br>' + " " + lowTemp(1));
 
-        $('#ddfour').html(todayDate + " " + humidityLevel(3) + " " + sunriseTime(3) + " " + highTemp(3) + " " + lowTemp(3));
+        $('#ddthree').html(todayDateThree + '<br>' + " " + humidityLevel(2) + '<br>' + " " + sunriseTime(2) + '<br>' + " " + highTemp(2) + '<br>' + " " + lowTemp(2));
 
-        $('#ddfive').html(todayDate + " " + humidityLevel(4) + " " + sunriseTime(4) + " " + highTemp(4) + " " + lowTemp(4));
+        $('#ddfour').html(todayDateFour + '<br>' + " " + humidityLevel(3) + '<br>' + " " + sunriseTime(3) + '<br>' + " " + highTemp(3) + '<br>' + " " + lowTemp(3));
+
+        $('#ddfive').html(todayDateFive + '<br>' + " " + humidityLevel(4) + '<br>' + " " + sunriseTime(4) + '<br>' + " " + highTemp(4) + '<br>' + " " + lowTemp(4));
 
         resp.daily.forEach(function(forecast){
             console.log(new Date(forecast.dt * 1000));
@@ -135,10 +188,9 @@ function weatherWrap(){
 
     });
 }
-weatherWrap()
-
+// allows my page to open in SA
+weatherWrap({lat: 29.4241, lng: -98.4936,})
 
 </script>
-<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>-->
 </body>
 </html>
