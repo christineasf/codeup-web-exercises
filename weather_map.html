@@ -5,14 +5,15 @@
     <title>OpenWeather API Playground</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.css' rel='stylesheet' />
-    <style>
+    <script src="js/mapbox-geocoder-utils.js"></script>
 
+    <style>
 
 </style>
 </head>
 <body>
 <!--<canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;"></canvas>-->
-<h1 class="d-flex colcontainer-fluid">WHAT'S THE WEATHER?</h1>
+<h1 class="d-flex col container-fluid">WHAT'S THE WEATHER?</h1>
 <label for="input">Search Location</label>
 <input type="text" id="input">
 <button id="btn" type="button">Find</button>
@@ -33,14 +34,7 @@
 <script src="js/keys.js"></script>
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.2.0/mapbox-gl.js'></script>
 <script>
-// map
-//     mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
-//     var map = new mapboxgl.Map({
-//         container: 'map',
-//     });
-//     map.setStyle('mapbox://styles/mapbox/satellite-streets-v11')
-//     map.setZoom(10)
-//     map.setCenter([-98.4936, 29.4241])
+
 
 mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
 var map = new mapboxgl.Map({
@@ -71,6 +65,16 @@ marker.setPopup(popup)
         console.log({lat, lng})
         coordinates = {lat, lon: lng}
     })
+function searchResults(){
+    var search = $("#input").val();
+    geocode(userInput, MAPBOX_ACCESS_TOKEN).then(function([lng, lat]) {
+        coordinates = {lat, lon: lng}
+        weatherWrap()
+        marker.setLngLat({lng, lat});
+        popup.setHTML('<h3 class="font">' + userInput +  '</h3>');
+        map.flyTo({center: {lng, lat}});
+    })
+}
 
 function weatherWrap(){
     $.get('https://api.openweathermap.org/data/2.5/onecall', {
@@ -82,8 +86,6 @@ function weatherWrap(){
         console.log('5 day forcast', resp);
         var today = resp.daily[0];
         var todayDate = new Date(today.dt * 1000).toDateString();
-
-
 
 
         function humidityLevel(index) {
