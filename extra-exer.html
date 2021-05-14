@@ -17,9 +17,21 @@ function filterNumbers(array) {
     return numArr.sort();
 }
 
+function getOlder(array){
+    for(var i = 0; i < array.length; i++ ) {
+        array[i].age++;
+    }
+    return array
+}
+getOlder(dogs);
 
-
-
+function washCars(array){
+    for(var i = 0; i < array.length; i++){
+        array[i].isDirty = false;
+    }
+    return array
+}
+washCars(cars);
 
 </script>
 </body>
